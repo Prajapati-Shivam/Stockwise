@@ -15,11 +15,9 @@ import axios from "axios";
 import { Loader2, Pencil } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
-import { useSession } from "next-auth/react";
 
 const Modal = ({ selectedProduct }) => {
   const { toast } = useToast();
-  const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
   if (!selectedProduct) return null;
   const [updatedProduct, setUpdatedProduct] = useState({ ...selectedProduct });
@@ -42,11 +40,7 @@ const Modal = ({ selectedProduct }) => {
     }
     try {
       setLoading(true);
-      const { data } = await axios.put("/api/update", updatedProduct, {
-        headers: {
-          Authorization: `Bearer ${session?.user?.accessToken}`,
-        },
-      });
+      const { data } = await axios.put("/api/update", updatedProduct);
       if (data.error) {
         toast({
           variant: "destructive",
@@ -75,9 +69,6 @@ const Modal = ({ selectedProduct }) => {
     try {
       const { data } = await axios.delete("/api/delete", {
         data: { id: selectedProduct._id },
-        headers: {
-          Authorization: `Bearer ${session?.user?.accessToken}`,
-        },
       });
       if (data.error) {
         toast({
@@ -120,7 +111,7 @@ const Modal = ({ selectedProduct }) => {
               name="quantity"
               type="number"
               onChange={handleChange}
-              value={updatedProduct.quantity || selectedProduct.quantity}
+              value={updatedProduct.quantity}
               className="col-span-3"
             />
           </div>
@@ -133,7 +124,7 @@ const Modal = ({ selectedProduct }) => {
               name="price"
               type="number"
               onChange={handleChange}
-              value={updatedProduct.price || selectedProduct.price}
+              value={updatedProduct.price}
               className="col-span-3"
             />
           </div>

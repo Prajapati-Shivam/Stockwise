@@ -1,22 +1,12 @@
 import { NextResponse } from "next/server";
 import Stock from "../../../models/stock";
 import { connectMongoDB } from "@/lib/db";
-import { verifyJwt } from "@/lib/jwt";
 
 export async function PUT(req) {
-  const authorizationHeader = req.headers.get("Authorization");
-  if (!authorizationHeader || !authorizationHeader.startsWith("Bearer ")) {
-    return NextResponse.json({ error: "Unauthorized", status: 401 });
-  }
-  const accessToken = authorizationHeader.replace("Bearer ", "");
-  if (!verifyJwt(accessToken)) {
-    return NextResponse.json({ error: "Unauthorized", status: 401 });
-  }
-
   try {
     await connectMongoDB();
     const body = await req.json();
-    const filter = { owner: verifyJwt(accessToken)._id };
+    const filter = { _id: body._id };
     const update = {
       $set: {
         quantity: body.quantity,
@@ -25,6 +15,7 @@ export async function PUT(req) {
     };
     const options = {
       upsert: false,
+      new: true,
     };
     const product = await Stock.findOneAndUpdate(filter, update, options);
     return NextResponse.json({ product });

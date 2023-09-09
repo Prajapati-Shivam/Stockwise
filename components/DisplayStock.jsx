@@ -28,15 +28,7 @@ const DisplayStock = () => {
   const getProducts = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(
-        "/api/product",
-        {
-          headers: {
-            Authorization: `Bearer ${session?.user?.accessToken}`,
-          },
-        },
-        { owner: session?.user?._id }
-      );
+      const { data } = await axios.get("/api/product");
       if (data.error) {
         toast({
           variant: "destructive",

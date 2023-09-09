@@ -1,25 +1,16 @@
 import { NextResponse } from "next/server";
 import Stock from "../../../models/stock";
 import { connectMongoDB } from "@/lib/db";
-import { verifyJwt } from "@/lib/jwt";
+import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth";
 
 // Display all stocks
-export async function GET(req) {
-  const authorizationHeader = req.headers.get("Authorization");
-  if (!authorizationHeader || !authorizationHeader.startsWith("Bearer ")) {
-    return NextResponse.json({ error: "Unauthorized", status: 401 });
-  }
-  const accessToken = authorizationHeader.replace("Bearer ", "");
-  if (!verifyJwt(accessToken)) {
-    return NextResponse.json({
-      error: "Session expired, please login again",
-      status: 401,
-    });
-  }
+export async function GET() {
+  const session = await getServerSession(authOptions);
   try {
     await connectMongoDB();
-    const id = verifyJwt(accessToken)._id;
-    const products = await Stock.find({ owner: id });
+    const owner = session?.user?._id;
+    const products = await Stock.find({ owner });
     return NextResponse.json({ success: true, products });
   } catch (error) {
     return NextResponse.json({ error: error.message, status: 500 });
@@ -28,18 +19,12 @@ export async function GET(req) {
 
 // Add new stock
 export async function POST(req) {
-  const authorizationHeader = req.headers.get("Authorization");
-  if (!authorizationHeader || !authorizationHeader.startsWith("Bearer ")) {
-    return NextResponse.json({ error: "Unauthorized", status: 401 });
-  }
-  const accessToken = authorizationHeader.replace("Bearer ", "");
-  if (!verifyJwt(accessToken)) {
-    return NextResponse.json({ error: "Unauthorized", status: 401 });
-  }
+  const session = await getServerSession(authOptions);
   try {
     await connectMongoDB();
+    const owner = session?.user?._id;
     const body = await req.json();
-    const { name, price, quantity, owner } = body;
+    const { name, price, quantity } = body;
     const product = await Stock.create({ name, price, quantity, owner });
     return NextResponse.json({ success: true, product });
   } catch (error) {

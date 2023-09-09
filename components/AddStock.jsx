@@ -17,7 +17,6 @@ import { useSession } from "next-auth/react";
 
 const AddStock = () => {
   const { data: session } = useSession();
-
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState({
@@ -38,14 +37,7 @@ const AddStock = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const headers = {
-        Authorization: `Bearer ${session?.user?.accessToken}`,
-      };
-      const addData = {
-        ...products,
-        owner: session?.user?._id,
-      };
-      const { data } = await axios.post("/api/product", addData, { headers });
+      const { data } = await axios.post("/api/product", products);
       if (data.error) {
         toast({
           title: "Error",

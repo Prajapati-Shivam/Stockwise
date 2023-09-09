@@ -33,11 +33,7 @@ const SearchStock = () => {
     try {
       if (debounced.length > 0) {
         setLoading(true);
-        const { data } = await axios.get(`/api/search?query=${debounced}`, {
-          headers: {
-            Authorization: `Bearer ${session?.user?.accessToken}`,
-          },
-        });
+        const { data } = await axios.get(`/api/search?query=${debounced}`);
         if (data.error) {
           toast({
             variant: "destructive",
