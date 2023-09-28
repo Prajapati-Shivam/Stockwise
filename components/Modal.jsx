@@ -130,18 +130,20 @@ const Modal = ({ selectedProduct }) => {
           </div>
         </div>
         <DialogFooter>
-          <Button
-            onClick={handleDelete}
-            variant="destructive"
-            size="sm"
-            disabled={loading}
-          >
-            Delete
-          </Button>
-          <Button onClick={handleSubmit} size="sm" disabled={loading}>
-            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Update
-          </Button>
+          <div className="flex gap-2 justify-center">
+            <Button
+              onClick={handleDelete}
+              variant="destructive"
+              size="sm"
+              disabled={loading}
+            >
+              Delete
+            </Button>
+            <Button onClick={handleSubmit} size="sm" disabled={loading}>
+              {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Update
+            </Button>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>

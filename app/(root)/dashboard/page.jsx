@@ -1,9 +1,8 @@
-"use client";
 import DashboardCards from "@/components/DashboardCards";
-import { useSession } from "next-auth/react";
-export default function Dashboard() {
-  const { data: session, status } = useSession();
-  if (status === "loading") return null;
+import { authOptions } from "@/lib/auth";
+import { getServerSession } from "next-auth";
+export default async function Dashboard() {
+  const session = await getServerSession(authOptions);
   return (
     <div className="container mx-auto px-4">
       <div className="flex justify-center">

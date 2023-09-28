@@ -5,7 +5,7 @@ import { connectMongoDB } from "@/lib/db";
 export async function GET(req) {
   try {
     await connectMongoDB();
-    const query = req.nextUrl.searchParams.get("query");
+    const query = req.nextUrl.searchParams.get("search");
     const products = await Stock.find({
       $or: [{ name: { $regex: query, $options: "i" } }],
     });

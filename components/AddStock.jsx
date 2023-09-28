@@ -13,10 +13,8 @@ import { useToast } from "@/components/ui/use-toast";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
-import { useSession } from "next-auth/react";
 
 const AddStock = () => {
-  const { data: session } = useSession();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState({

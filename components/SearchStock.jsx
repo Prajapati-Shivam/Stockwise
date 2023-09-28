@@ -9,6 +9,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useSession } from "next-auth/react";
 import { useDebouncedValue } from "@mantine/hooks";
 import axios from "axios";
+import { Loader2 } from "lucide-react";
 
 const SearchStock = () => {
   const { toast } = useToast();
@@ -30,10 +31,13 @@ const SearchStock = () => {
   };
 
   const handleDropdown = async () => {
+    const params = {
+      search: debounced,
+    };
     try {
       if (debounced.length > 0) {
         setLoading(true);
-        const { data } = await axios.get(`/api/search?query=${debounced}`);
+        const { data } = await axios.get("/api/search", { params });
         if (data.error) {
           toast({
             variant: "destructive",
@@ -76,30 +80,11 @@ const SearchStock = () => {
             />
             {loading && (
               <div className="absolute right-0 top-0 mt-3 mr-4">
-                <svg
-                  className="animate-spin h-5 w-5 text-gray-500"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8"
-                  ></path>
-                </svg>
+                <Loader2 className="h-4 w-4 animate-spin" />
               </div>
             )}
             {dropdown.length > 0 && (
-              <div className="absolute w-full mt-1 rounded-lg">
+              <div className="absolute w-full mt-1 rounded-lg z-20">
                 {dropdown.map((product, index) => {
                   return (
                     <div key={index}>

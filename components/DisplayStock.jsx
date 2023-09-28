@@ -82,9 +82,9 @@ const DisplayStock = () => {
         </TableHeader>
         <TableBody>
           {products.length > 0 ? (
-            visibleResults.map((product, i) => {
+            visibleResults.map((product) => {
               return (
-                <TableRow key={i} className="group">
+                <TableRow key={product._id} className="group">
                   <TableCell className="font-medium flex items-center cursor-pointer">
                     {product.name}
                     <span className="hidden group-hover:flex">
@@ -107,7 +107,7 @@ const DisplayStock = () => {
           )}
         </TableBody>
       </Table>
-      {products.length > 0 && (
+      {products.length > 5 && (
         <div className="mt-4 flex justify-between">
           <Button onClick={pagination.previous} size="sm">
             Previous

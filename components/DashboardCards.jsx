@@ -17,7 +17,7 @@ const DashboardCards = () => {
   return (
     <main className="flex flex-col items-center sm:flex-row gap-6">
       {/* Add stock */}
-      <Card className="w-[350px] h-[400px] text-center flex flex-col justify-between hover:border-white">
+      <Card className="w-[350px] h-auto sm:h-[400px] text-center flex flex-col justify-between dark:hover:border-white hover:border-black">
         <CardHeader>
           <CardTitle>Add Stock</CardTitle>
           <CardDescription>Add a new stock to inventory.</CardDescription>
@@ -33,7 +33,7 @@ const DashboardCards = () => {
       </Card>
 
       {/* View stock */}
-      <Card className="w-[350px] h-[400px] text-center flex flex-col justify-between hover:border-white">
+      <Card className="w-[350px] h-auto sm:h-[400px] text-center flex flex-col justify-between dark:hover:border-white hover:border-black">
         <CardHeader>
           <CardTitle>View Stock</CardTitle>
           <CardDescription>View all your stocks in one place.</CardDescription>
@@ -49,7 +49,7 @@ const DashboardCards = () => {
       </Card>
 
       {/* Search stock */}
-      <Card className="w-[350px] h-[400px] text-center flex flex-col justify-between hover:border-white">
+      <Card className="w-[350px] h-auto sm:h-[400px] text-center flex flex-col justify-between dark:hover:border-white hover:border-black">
         <CardHeader>
           <CardTitle>Search Stock</CardTitle>
           <CardDescription>Search for stock in inventory.</CardDescription>

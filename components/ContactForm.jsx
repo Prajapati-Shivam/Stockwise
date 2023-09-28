@@ -31,7 +31,7 @@ const ContactForm = () => {
     <form
       ref={form}
       onSubmit={sendEmail}
-      className="border-2 sm:w-1/2 rounded-lg h-full p-4 sm:p-8 bg-opacity-50 backdrop-blur-md"
+      className="border-2 w-full sm:w-1/2 rounded-lg h-full p-4 sm:p-8 bg-opacity-50 backdrop-blur-md"
     >
       <p className="text-2xl font-semibold mb-4">Contact Us</p>
       <div className="mb-4">
